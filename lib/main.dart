@@ -19,12 +19,10 @@ class MyApp extends StatelessWidget {
           primaryContainer: Color(0xFF7986FF), // Light Blue
           secondary: Color(0xFFB99688), // Muted Rose
           secondaryContainer: Color(0xFFD2B4A8),
-          surface: Color(0xFFFFFFFF), // White
-          background: Color(0xFFF5F5F5), // Light Grey
+          surface: Color(0xFFF5F5F5), // Light Grey
           onPrimary: Colors.white,
           onSecondary: Color(0xFF212121),
           onSurface: Color(0xFF212121),
-          onBackground: Color(0xFF212121),
           error: Color(0xFFD32F2F),
         ),
         scaffoldBackgroundColor: const Color(0xFFF5F5F5),
@@ -74,12 +72,10 @@ class MyApp extends StatelessWidget {
           primaryContainer: Color(0xFF3206FF),
           secondary: Color(0xFFD2B4A8), // Light Rose
           secondaryContainer: Color(0xFFB99688),
-          surface: Color(0xFF1E1E1E),
-          background: Color(0xFF121212),
+          surface: Color(0xFF121212),
           onPrimary: Colors.white,
           onSecondary: Color(0xFF212121),
           onSurface: Color(0xFFCFD8DC),
-          onBackground: Color(0xFFCFD8DC),
           error: Color(0xFFEF5350),
         ),
         scaffoldBackgroundColor: const Color(0xFF121212),
@@ -126,5 +122,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-

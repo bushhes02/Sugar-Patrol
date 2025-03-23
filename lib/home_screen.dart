@@ -137,7 +137,7 @@ class HomeScreenState extends State<HomeScreen> {
                       child: CircularProgressIndicator(
                         value: totalSugarIntake / 100, // Scale for visual purposes (max 100g for display)
                         strokeWidth: 14,
-                        backgroundColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
+                        backgroundColor: Theme.of(context).colorScheme.onSurface.withAlpha((0.2 * 255).round()),
                         valueColor: AlwaysStoppedAnimation<Color>(
                           hasExceededLimit
                               ? Theme.of(context).colorScheme.error // Red if exceeded

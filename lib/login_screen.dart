@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFFFF6F61),
+                color: Theme.of(context).colorScheme.primary, // Replace coral with primary blue
               ),
             ),
             const Text(
@@ -35,13 +35,16 @@ class LoginScreen extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: "Email",
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
               ),
               keyboardType: TextInputType.emailAddress,
@@ -51,13 +54,16 @@ class LoginScreen extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: "Password",
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
               ),
               obscureText: true,
@@ -71,8 +77,8 @@ class LoginScreen extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFFF6F61),
-                foregroundColor: Colors.white,
+                backgroundColor: Theme.of(context).colorScheme.primary, // Replace coral with primary blue
+                foregroundColor: Theme.of(context).colorScheme.onPrimary, // Use onPrimary for text/icon color
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
               ),
               child: const Text(
@@ -98,14 +104,14 @@ class LoginScreen extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => const SignUpScreen()),
                     );
                   },
-                  child: const Text(
+                  child: Text(
                     "Sign Up",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: Color(0xFFFF6F61),
+                      color: Theme.of(context).colorScheme.primary, // Replace coral with primary blue
                       decoration: TextDecoration.underline,
-                      decorationColor: Color(0xFFFF6F61),
+                      decorationColor: Theme.of(context).colorScheme.primary, // Replace coral with primary blue
                     ),
                   ),
                 ),

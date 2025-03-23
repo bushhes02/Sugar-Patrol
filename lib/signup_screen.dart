@@ -35,13 +35,16 @@ class SignUpScreen extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: "Enter your name",
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
               ),
             ),
@@ -58,13 +61,16 @@ class SignUpScreen extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: "Enter your email",
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
               ),
               keyboardType: TextInputType.emailAddress,
@@ -82,13 +88,16 @@ class SignUpScreen extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: "Enter your password",
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
               ),
               obscureText: true,
@@ -106,13 +115,16 @@ class SignUpScreen extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: "Re-enter your password",
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFFF6F61), width: 2.0),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
                 ),
               ),
               obscureText: true,
@@ -126,8 +138,8 @@ class SignUpScreen extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFFF6F61),
-                foregroundColor: Colors.white,
+                backgroundColor: Theme.of(context).colorScheme.primary, // Replace coral with primary blue
+                foregroundColor: Theme.of(context).colorScheme.onPrimary, // Use onPrimary for text/icon color
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
               ),
               child: const Text(
@@ -150,14 +162,14 @@ class SignUpScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: const Text(
+                  child: Text(
                     "Login",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: Color(0xFFFF6F61),
+                      color: Theme.of(context).colorScheme.primary, // Replace coral with primary blue
                       decoration: TextDecoration.underline,
-                      decorationColor: Color(0xFFFF6F61),
+                      decorationColor: Theme.of(context).colorScheme.primary, // Replace coral with primary blue
                     ),
                   ),
                 ),
