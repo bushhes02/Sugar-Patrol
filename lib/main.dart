@@ -18,6 +18,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = themeProvider.isDarkMode;
+
+    print('Current theme mode: ${isDarkMode ? 'Dark' : 'Light'}');
 
     return MaterialApp(
       title: 'Sugar Patrol',
@@ -91,7 +94,7 @@ class MyApp extends StatelessWidget {
           surface: Color(0xFF121212),
           onPrimary: Colors.white,
           onSecondary: Color(0xFF212121),
-          onSurface: Colors.white, // Pure white for maximum contrast
+          onSurface: Colors.white,
           error: Color(0xFFEF5350),
         ),
         scaffoldBackgroundColor: const Color(0xFF121212),
@@ -133,15 +136,15 @@ class MyApp extends StatelessWidget {
           backgroundColor: Color(0xFF7986FF),
           foregroundColor: Colors.white,
         ),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          backgroundColor: const Color(0xFF121212),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Color(0xFF121212),
           selectedItemColor: Colors.white, // Bright white for selected item
-          unselectedItemColor: Colors.grey[300], // Brighter gray for unselected items
-          selectedLabelStyle: const TextStyle(color: Colors.white),
-          unselectedLabelStyle: TextStyle(color: Colors.grey[300]),
+          unselectedItemColor: Colors.grey, // Brighter gray for unselected items
+          selectedLabelStyle: TextStyle(color: Colors.white),
+          unselectedLabelStyle: TextStyle(color: Colors.grey),
         ),
       ),
-      themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
       home: const LoginScreen(),
     );
   }

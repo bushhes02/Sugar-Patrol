@@ -54,8 +54,6 @@ class MainScreenState extends State<MainScreen> {
                 label: 'Settings',
               ),
             ],
-            selectedItemColor: Theme.of(context).primaryColor,
-            unselectedItemColor: const Color(0xFF37474F),
             showUnselectedLabels: true,
             type: BottomNavigationBarType.fixed,
             elevation: 8.0,

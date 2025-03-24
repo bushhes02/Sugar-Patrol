@@ -11,7 +11,12 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   List<Map<String, dynamic>> logs = [];
+  List<Map<String, dynamic>> sortedLogs = []; // Sorted list for display
   double dailySugarLimit = 50.0; // Initial default, will be updated
+
+  // Sorting option
+  String _sortOption = 'Ascending'; // Default sort: low to high
+  final List<String> _sortOptions = ['Ascending', 'Descending'];
 
   // Darker green for tracker and message
   static const Color darkGreen = Color(0xFF2E8B57);
@@ -48,6 +53,7 @@ class HomeScreenState extends State<HomeScreen> {
         logs = savedLogs
             .map((log) => jsonDecode(log) as Map<String, dynamic>)
             .toList();
+        _applySort(); // Sort the logs after loading
       });
     }
   }
@@ -63,6 +69,25 @@ class HomeScreenState extends State<HomeScreen> {
     final prefs = await SharedPreferences.getInstance();
     List<String> logsToSave = logs.map((log) => jsonEncode(log)).toList();
     await prefs.setStringList('foodLogs', logsToSave);
+  }
+
+  // Apply sorting to today's logs
+  void _applySort() {
+    // Filter logs to show only today's logs
+    DateTime today = DateTime.now();
+    sortedLogs = logs.where((log) {
+      DateTime logDate = DateTime.parse(log['timestamp']);
+      return logDate.year == today.year &&
+          logDate.month == today.month &&
+          logDate.day == today.day;
+    }).toList();
+
+    // Sort based on the selected option
+    if (_sortOption == 'Ascending') {
+      sortedLogs.sort((a, b) => (a['sugar'] as num).compareTo(b['sugar'] as num));
+    } else {
+      sortedLogs.sort((a, b) => (b['sugar'] as num).compareTo(a['sugar'] as num));
+    }
   }
 
   // Add a new log entry via dialog
@@ -117,6 +142,7 @@ class HomeScreenState extends State<HomeScreen> {
                       "sugar": sugarAmount,
                       "timestamp": DateTime.now().toIso8601String(),
                     });
+                    _applySort(); // Re-sort after adding a new log
                   });
                   _saveLogs();
                   _foodController.clear();
@@ -140,6 +166,7 @@ class HomeScreenState extends State<HomeScreen> {
   void removeLogEntry(int index) {
     setState(() {
       logs.removeAt(index);
+      _applySort(); // Re-sort after removing a log
       _saveLogs();
     });
   }
@@ -158,15 +185,6 @@ class HomeScreenState extends State<HomeScreen> {
     String limitMessage = hasExceededLimit
         ? "You’ve exceeded your daily sugar limit! Try to cut back tomorrow."
         : "You’re within your daily sugar limit. Keep it up!";
-
-    // Filter logs to show only today's logs
-    final todayLogs = logs.where((log) {
-      DateTime logDate = DateTime.parse(log['timestamp']);
-      DateTime today = DateTime.now();
-      return logDate.year == today.year &&
-          logDate.month == today.month &&
-          logDate.day == today.day;
-    }).toList();
 
     return Scaffold(
       body: SafeArea(
@@ -258,7 +276,7 @@ class HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              // Log List Card (with header inside)
+              // Log List Card (with header and sorting inside)
               Expanded(
                 child: Card(
                   child: Container(
@@ -269,14 +287,45 @@ class HomeScreenState extends State<HomeScreen> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text(
-                            "Today’s Logs",
-                            style: Theme.of(context).textTheme.headlineSmall,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Today’s Logs",
+                                style: Theme.of(context).textTheme.headlineSmall,
+                              ),
+                              // Sorting Dropdown
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Sort by: ',
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                  DropdownButton<String>(
+                                    value: _sortOption,
+                                    onChanged: (String? newValue) {
+                                      if (newValue != null) {
+                                        setState(() {
+                                          _sortOption = newValue;
+                                          _applySort();
+                                        });
+                                      }
+                                    },
+                                    items: _sortOptions.map<DropdownMenuItem<String>>((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(height: 8),
                         Expanded(
-                          child: todayLogs.isEmpty
+                          child: sortedLogs.isEmpty
                               ? Center(
                                   child: Text(
                                     "No logs yet. Add an entry!",
@@ -289,9 +338,9 @@ class HomeScreenState extends State<HomeScreen> {
                                   radius: const Radius.circular(10),
                                   trackVisibility: true,
                                   child: ListView.builder(
-                                    itemCount: todayLogs.length,
+                                    itemCount: sortedLogs.length,
                                     itemBuilder: (context, index) {
-                                      final log = todayLogs[index];
+                                      final log = sortedLogs[index];
                                       return Dismissible(
                                         key: Key(log["food"] + index.toString()),
                                         direction: DismissDirection.endToStart,
