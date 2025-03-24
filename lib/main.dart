@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'theme_provider.dart';
 import 'login_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -10,6 +17,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return MaterialApp(
       title: 'Sugar Patrol',
       theme: ThemeData(
@@ -45,7 +54,7 @@ class MyApp extends StatelessWidget {
         ),
         cardTheme: CardTheme(
           elevation: 4,
-          color: Color(0xFFE6EBFF), // Washed-Out Light Blue
+          color: const Color(0xFFE6EBFF), // Washed-Out Light Blue
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -64,6 +73,13 @@ class MyApp extends StatelessWidget {
           backgroundColor: Color(0xFF3206FF),
           foregroundColor: Colors.white,
         ),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Color(0xFFF5F5F5),
+          selectedItemColor: Color(0xFF3206FF),
+          unselectedItemColor: Color(0xFF616161),
+          selectedLabelStyle: TextStyle(color: Color(0xFF3206FF)),
+          unselectedLabelStyle: TextStyle(color: Color(0xFF616161)),
+        ),
       ),
       darkTheme: ThemeData(
         fontFamily: 'Roboto',
@@ -75,7 +91,7 @@ class MyApp extends StatelessWidget {
           surface: Color(0xFF121212),
           onPrimary: Colors.white,
           onSecondary: Color(0xFF212121),
-          onSurface: Color(0xFFCFD8DC),
+          onSurface: Colors.white, // Pure white for maximum contrast
           error: Color(0xFFEF5350),
         ),
         scaffoldBackgroundColor: const Color(0xFF121212),
@@ -83,12 +99,12 @@ class MyApp extends StatelessWidget {
           headlineSmall: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Color(0xFFCFD8DC),
+            color: Colors.white,
           ),
           bodyLarge: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.normal,
-            color: Color(0xFFCFD8DC),
+            color: Colors.white,
           ),
           bodyMedium: TextStyle(
             fontSize: 14,
@@ -98,7 +114,7 @@ class MyApp extends StatelessWidget {
         ),
         cardTheme: CardTheme(
           elevation: 4,
-          color: Color(0xFF2A2F5A), // Darker shade for dark mode
+          color: const Color(0xFF2A2F5A), // Darker shade for dark mode
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -111,13 +127,21 @@ class MyApp extends StatelessWidget {
           ),
         ),
         iconTheme: const IconThemeData(
-          color: Color(0xFFCFD8DC),
+          color: Colors.white,
         ),
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
           backgroundColor: Color(0xFF7986FF),
           foregroundColor: Colors.white,
         ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: const Color(0xFF121212),
+          selectedItemColor: Colors.white, // Bright white for selected item
+          unselectedItemColor: Colors.grey[300], // Brighter gray for unselected items
+          selectedLabelStyle: const TextStyle(color: Colors.white),
+          unselectedLabelStyle: TextStyle(color: Colors.grey[300]),
+        ),
       ),
+      themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
       home: const LoginScreen(),
     );
   }
