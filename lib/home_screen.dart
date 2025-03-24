@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -8,19 +10,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  // Mock data for log entries (food item and sugar level)
-  List<Map<String, dynamic>> logs = [
-    {"food": "Apple", "sugar": 19},
-    {"food": "Soda", "sugar": 39},
-    {"food": "Yogurt", "sugar": 12},
-    {"food": "Candy", "sugar": 25},
-  ];
-
-  // Mock total sugar intake for the day (sum of sugar levels)
-  double get totalSugarIntake => logs.fold(0, (sum, log) => sum + log["sugar"]);
-
-  // Daily sugar limit (in grams)
-  final double dailySugarLimit = 50.0;
+  List<Map<String, dynamic>> logs = [];
+  double dailySugarLimit = 50.0; // Initial default, will be updated
 
   // Darker green for tracker and message
   static const Color darkGreen = Color(0xFF2E8B57);
@@ -28,6 +19,51 @@ class HomeScreenState extends State<HomeScreen> {
   // Text controllers for the dialog inputs
   final TextEditingController _foodController = TextEditingController();
   final TextEditingController _sugarController = TextEditingController();
+
+  // Total sugar intake for today
+  double get totalSugarIntake {
+    DateTime today = DateTime.now();
+    return logs
+        .where((log) {
+          DateTime logDate = DateTime.parse(log['timestamp']);
+          return logDate.year == today.year &&
+              logDate.month == today.month &&
+              logDate.day == today.day;
+        })
+        .fold(0, (sum, log) => sum + (log['sugar'] as num).toDouble());
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLogs();
+    _loadSugarLimit();
+  }
+
+  Future<void> _loadLogs() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String>? savedLogs = prefs.getStringList('foodLogs');
+    if (savedLogs != null) {
+      setState(() {
+        logs = savedLogs
+            .map((log) => jsonDecode(log) as Map<String, dynamic>)
+            .toList();
+      });
+    }
+  }
+
+  Future<void> _loadSugarLimit() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      dailySugarLimit = prefs.getDouble('dailySugarLimit') ?? 50.0;
+    });
+  }
+
+  Future<void> _saveLogs() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> logsToSave = logs.map((log) => jsonEncode(log)).toList();
+    await prefs.setStringList('foodLogs', logsToSave);
+  }
 
   // Add a new log entry via dialog
   void addLogEntry(BuildContext context) {
@@ -68,15 +104,28 @@ class HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 if (_foodController.text.isNotEmpty &&
                     _sugarController.text.isNotEmpty) {
+                  double? sugarAmount = double.tryParse(_sugarController.text);
+                  if (sugarAmount == null || sugarAmount <= 0) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Please enter a valid sugar amount greater than 0')),
+                    );
+                    return;
+                  }
                   setState(() {
                     logs.add({
                       "food": _foodController.text,
-                      "sugar": int.parse(_sugarController.text),
+                      "sugar": sugarAmount,
+                      "timestamp": DateTime.now().toIso8601String(),
                     });
                   });
+                  _saveLogs();
                   _foodController.clear();
                   _sugarController.clear();
                   Navigator.pop(context); // Close dialog
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please enter both food name and sugar amount')),
+                  );
                 }
               },
               child: const Text("Add"),
@@ -91,6 +140,7 @@ class HomeScreenState extends State<HomeScreen> {
   void removeLogEntry(int index) {
     setState(() {
       logs.removeAt(index);
+      _saveLogs();
     });
   }
 
@@ -108,6 +158,15 @@ class HomeScreenState extends State<HomeScreen> {
     String limitMessage = hasExceededLimit
         ? "You’ve exceeded your daily sugar limit! Try to cut back tomorrow."
         : "You’re within your daily sugar limit. Keep it up!";
+
+    // Filter logs to show only today's logs
+    final todayLogs = logs.where((log) {
+      DateTime logDate = DateTime.parse(log['timestamp']);
+      DateTime today = DateTime.now();
+      return logDate.year == today.year &&
+          logDate.month == today.month &&
+          logDate.day == today.day;
+    }).toList();
 
     return Scaffold(
       body: SafeArea(
@@ -217,7 +276,7 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                         const SizedBox(height: 8),
                         Expanded(
-                          child: logs.isEmpty
+                          child: todayLogs.isEmpty
                               ? Center(
                                   child: Text(
                                     "No logs yet. Add an entry!",
@@ -230,14 +289,14 @@ class HomeScreenState extends State<HomeScreen> {
                                   radius: const Radius.circular(10),
                                   trackVisibility: true,
                                   child: ListView.builder(
-                                    itemCount: logs.length,
+                                    itemCount: todayLogs.length,
                                     itemBuilder: (context, index) {
-                                      final log = logs[index];
+                                      final log = todayLogs[index];
                                       return Dismissible(
                                         key: Key(log["food"] + index.toString()),
                                         direction: DismissDirection.endToStart,
                                         onDismissed: (direction) {
-                                          removeLogEntry(index);
+                                          removeLogEntry(logs.indexOf(log));
                                         },
                                         background: Container(
                                           color: Theme.of(context).colorScheme.error,
@@ -281,7 +340,7 @@ class HomeScreenState extends State<HomeScreen> {
                                                       Icons.delete,
                                                       color: Theme.of(context).colorScheme.error,
                                                     ),
-                                                    onPressed: () => removeLogEntry(index),
+                                                    onPressed: () => removeLogEntry(logs.indexOf(log)),
                                                   ),
                                                 ],
                                               ),
