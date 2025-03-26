@@ -27,7 +27,7 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             const Text(
-              "Let’s fight glucose together!",
+              "Smarter Tracking, Healthier Living!",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
             ),
             const SizedBox(height: 24),
