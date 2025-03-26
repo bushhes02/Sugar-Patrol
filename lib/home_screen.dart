@@ -15,8 +15,8 @@ class HomeScreenState extends State<HomeScreen> {
   double dailySugarLimit = 50.0; // Initial default, will be updated
 
   // Sorting option
-  String _sortOption = 'Ascending'; // Default sort: low to high
-  final List<String> _sortOptions = ['Ascending', 'Descending'];
+  String _sortOption = 'Low to High'; // Default sort: low to high
+  final List<String> _sortOptions = ['Low to High', 'High to Low'];
 
   // Darker green for tracker and message
   static const Color darkGreen = Color(0xFF2E8B57);
@@ -83,7 +83,7 @@ class HomeScreenState extends State<HomeScreen> {
     }).toList();
 
     // Sort based on the selected option
-    if (_sortOption == 'Ascending') {
+    if (_sortOption == 'Low to High') {
       sortedLogs.sort((a, b) => (a['sugar'] as num).compareTo(b['sugar'] as num));
     } else {
       sortedLogs.sort((a, b) => (b['sugar'] as num).compareTo(a['sugar'] as num));
