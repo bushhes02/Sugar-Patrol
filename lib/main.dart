@@ -1,9 +1,29 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'theme_provider.dart';
 import 'login_screen.dart';
 
-void main() {
+void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if(kIsWeb) {
+    await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: "AIzaSyDWrWK9Ok_NS2GkO3Ya8mT_yPaoJXWi9tY",
+      authDomain: "sugar-patrol.firebaseapp.com",
+      projectId: "sugar-patrol",
+      storageBucket: "sugar-patrol.firebasestorage.app",
+      messagingSenderId: "1035495240216",
+      appId: "1:1035495240216:web:229018e8291a4da97e096d"));
+  } else {
+    await Firebase.initializeApp();
+    print("Firebase initialized successfully!");
+  }
+  
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider(),

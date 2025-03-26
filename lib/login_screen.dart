@@ -1,9 +1,29 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:sugar_patrol/auth_service.dart';
 import 'signup_screen.dart';
 import 'main_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => LoginScreenState();
+}
+
+class LoginScreenState extends State<LoginScreen> {
+  final _auth = AuthService();
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +65,7 @@ class LoginScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8), // Small spacing between label and TextField
             TextField(
+              controller: _emailController,
               decoration: InputDecoration(
                 hintText: "Enter your email", // Updated placeholder text
                 border: OutlineInputBorder(
@@ -77,6 +98,7 @@ class LoginScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8), // Small spacing between label and TextField
             TextField(
+              controller: _passwordController,
               decoration: InputDecoration(
                 hintText: "Enter your password", // Updated placeholder text
                 border: OutlineInputBorder(
@@ -96,12 +118,7 @@ class LoginScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MainScreen()),
-                );
-              },
+              onPressed: _login,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary, // Replace coral with primary blue
                 foregroundColor: Theme.of(context).colorScheme.onPrimary, // Use onPrimary for text/icon color
@@ -147,5 +164,18 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+  goToHome(BuildContext context) => Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => const MainScreen()),
+  );
+
+  _login() async {
+    final user = await _auth.loginUserWithEmailAndPassword(_emailController.text, _passwordController.text);
+
+    if (user != null){
+      log("User Logged In");
+      goToHome(context);
+    }
   }
 }

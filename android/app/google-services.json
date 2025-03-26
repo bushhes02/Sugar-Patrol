@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1035495240216",
+    "project_id": "sugar-patrol",
+    "storage_bucket": "sugar-patrol.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035495240216:android:91260477b5a8c3bc7e096d",
+        "android_client_info": {
+          "package_name": "com.example.sugar_patrol"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCI23sjjo6O4IcT0WTzno8lrVJ0wqaLeIo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

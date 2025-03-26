@@ -1,8 +1,33 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:sugar_patrol/auth_service.dart';
+import 'package:sugar_patrol/home_screen.dart';
 import 'main_screen.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => SignUpScreenState();
+
+}
+
+class SignUpScreenState extends State<SignUpScreen> {
+
+  final _auth = AuthService();
+
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +57,7 @@ class SignUpScreen extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             TextField(
+              controller: _nameController,
               decoration: InputDecoration(
                 labelText: "Enter your name",
                 border: OutlineInputBorder(
@@ -58,6 +84,7 @@ class SignUpScreen extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             TextField(
+              controller: _emailController,
               decoration: InputDecoration(
                 labelText: "Enter your email",
                 border: OutlineInputBorder(
@@ -85,6 +112,7 @@ class SignUpScreen extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             TextField(
+              controller: _passwordController,
               decoration: InputDecoration(
                 labelText: "Enter your password",
                 border: OutlineInputBorder(
@@ -102,41 +130,9 @@ class SignUpScreen extends StatelessWidget {
               ),
               obscureText: true,
             ),
-            const SizedBox(height: 8),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Confirm Password",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-              ),
-            ),
-            const SizedBox(height: 4),
-            TextField(
-              decoration: InputDecoration(
-                labelText: "Re-enter your password",
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
-                ),
-              ),
-              obscureText: true,
-            ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MainScreen()),
-                );
-              },
+              onPressed: _signup,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary, // Replace coral with primary blue
                 foregroundColor: Theme.of(context).colorScheme.onPrimary, // Use onPrimary for text/icon color
@@ -179,5 +175,16 @@ class SignUpScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+  goToHome(BuildContext context) => Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => const MainScreen()),
+  );
+  _signup() async {
+    final user = await _auth.createUserWithEmailAndPassword(_emailController.text, _passwordController.text);
+    if (user!=null){
+      log("User Created Successfully");
+      goToHome(context);
+    }
   }
 }
