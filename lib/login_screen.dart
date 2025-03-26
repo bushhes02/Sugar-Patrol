@@ -31,9 +31,22 @@ class LoginScreen extends StatelessWidget {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
             ),
             const SizedBox(height: 24),
+            // Add "Email" text above the email TextField
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Email",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).colorScheme.onBackground, // Match the theme's text color
+                ),
+              ),
+            ),
+            const SizedBox(height: 8), // Small spacing between label and TextField
             TextField(
               decoration: InputDecoration(
-                labelText: "Email",
+                hintText: "Enter your email", // Updated placeholder text
                 border: OutlineInputBorder(
                   borderSide: BorderSide(
                       color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
@@ -50,9 +63,22 @@ class LoginScreen extends StatelessWidget {
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 8),
+            // Add "Password" text above the password TextField
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Password",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).colorScheme.onBackground, // Match the theme's text color
+                ),
+              ),
+            ),
+            const SizedBox(height: 8), // Small spacing between label and TextField
             TextField(
               decoration: InputDecoration(
-                labelText: "Password",
+                hintText: "Enter your password", // Updated placeholder text
                 border: OutlineInputBorder(
                   borderSide: BorderSide(
                       color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
