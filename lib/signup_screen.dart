@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:sugar_patrol/auth_service.dart';
-import 'package:sugar_patrol/home_screen.dart';
 import 'main_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
