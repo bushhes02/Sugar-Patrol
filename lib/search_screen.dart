@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async'; // For debounce
 
+// Search Screen widget for searching food products
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -10,6 +11,7 @@ class SearchScreen extends StatefulWidget {
   SearchScreenState createState() => SearchScreenState();
 }
 
+// State class for Search Screen to manage Search functionality
 class SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
@@ -17,7 +19,7 @@ class SearchScreenState extends State<SearchScreen> {
   List<Map<String, dynamic>> _searchResults = [];
   String? _errorMessage;
   Timer? _debounce;
-  bool _isLoading = false; // Add loading state
+  bool _isLoading = false; 
 
   @override
   void initState() {
@@ -25,6 +27,7 @@ class SearchScreenState extends State<SearchScreen> {
     _searchController.addListener(_onSearchChanged);
   }
 
+  // Handles changes in search input with debounce
   void _onSearchChanged() {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
@@ -32,6 +35,7 @@ class SearchScreenState extends State<SearchScreen> {
     });
   }
 
+  // Searches for products using Open Food Facts API 
   Future<void> _searchProducts() async {
     String query = _searchController.text.trim();
     print('Searching for: $query');
@@ -46,7 +50,7 @@ class SearchScreenState extends State<SearchScreen> {
     }
 
     setState(() {
-      _isLoading = true; // Show loading indicator
+      _isLoading = true; 
       _errorMessage = null;
       _searchResults = [];
     });
@@ -71,14 +75,13 @@ class SearchScreenState extends State<SearchScreen> {
                 String foodName = product['product_name'];
                 double? sugarContent = double.tryParse(
                     product['nutriments']?['sugars_100g']?.toString() ?? '0');
-                // Try to get additional info, like energy (calories)
                 double? energy = double.tryParse(
                     product['nutriments']?['energy-kcal_100g']?.toString() ?? '0');
 
                 _searchResults.add({
                   'food': foodName,
                   'sugar': sugarContent ?? 0.0,
-                  'energy': energy ?? 0.0, // Add energy for more info
+                  'energy': energy ?? 0.0, 
                 });
               }
             }
@@ -108,11 +111,12 @@ class SearchScreenState extends State<SearchScreen> {
       print('Error: $e');
     } finally {
       setState(() {
-        _isLoading = false; // Hide loading indicator
+        _isLoading = false; 
       });
     }
   }
 
+  //Retries if search fails
   void _retrySearch() {
     setState(() {
       _errorMessage = null;
@@ -138,7 +142,7 @@ class SearchScreenState extends State<SearchScreen> {
           controller: _searchController,
           focusNode: _searchFocusNode,
           decoration: InputDecoration(
-            hintText: "Enter product name", // Updated to match wireframe
+            hintText: "Enter product name", 
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
             ),

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sugar_patrol/settings_screen.dart'; // Adjust path if needed
-import 'package:sugar_patrol/theme_provider.dart'; // Adjust path if needed
-
+import 'package:sugar_patrol/settings_screen.dart';
+import 'package:sugar_patrol/theme_provider.dart';
 void main() {
   group('SettingsScreen Widget Tests', () {
     setUp(() async {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sugar_patrol/auth_service.dart';
 import 'main_screen.dart';
 
+// Sign Up Screen widget for user registration
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -12,6 +13,7 @@ class SignUpScreen extends StatefulWidget {
 
 }
 
+// State class for Sign Up Screen to manage sign up form state
 class SignUpScreenState extends State<SignUpScreen> {
 
   final _auth = AuthService();
@@ -21,7 +23,7 @@ class SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   @override
-  void dispose() {
+  void dispose() { // Clean up Controllers
     super.dispose();
     _nameController.dispose();
     _emailController.dispose();
@@ -61,15 +63,15 @@ class SignUpScreenState extends State<SignUpScreen> {
                 labelText: "Enter your name",
                 border: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary, width: 2.0),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary, width: 2.0),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary, width: 2.0),
                 ),
               ),
             ),
@@ -88,15 +90,15 @@ class SignUpScreenState extends State<SignUpScreen> {
                 labelText: "Enter your email",
                 border: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary, width: 2.0),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary, width: 2.0),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), 
                 ),
               ),
               keyboardType: TextInputType.emailAddress,
@@ -116,15 +118,15 @@ class SignUpScreenState extends State<SignUpScreen> {
                 labelText: "Enter your password",
                 border: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary, width: 2.0),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary, width: 2.0),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary, width: 2.0),
                 ),
               ),
               obscureText: true,
@@ -133,8 +135,8 @@ class SignUpScreenState extends State<SignUpScreen> {
             ElevatedButton(
               onPressed: _signup,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary, // Replace coral with primary blue
-                foregroundColor: Theme.of(context).colorScheme.onPrimary, // Use onPrimary for text/icon color
+                backgroundColor: Theme.of(context).colorScheme.primary, 
+                foregroundColor: Theme.of(context).colorScheme.onPrimary, 
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
               ),
               child: const Text(
@@ -162,9 +164,9 @@ class SignUpScreenState extends State<SignUpScreen> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.primary, // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary, 
                       decoration: TextDecoration.underline,
-                      decorationColor: Theme.of(context).colorScheme.primary, // Replace coral with primary blue
+                      decorationColor: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                 ),
@@ -175,10 +177,14 @@ class SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
+
+  // Navigates to the Main Screen, replacing the current route
   goToHome(BuildContext context) => Navigator.pushReplacement(
     context,
     MaterialPageRoute(builder: (context) => const MainScreen()),
   );
+
+  //Handles the signup process
   _signup() async {
     final user = await _auth.createUserWithEmailAndPassword(_emailController.text, _passwordController.text);
     if (user!=null){

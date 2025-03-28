@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'theme_provider.dart';
 import 'login_screen.dart';
 
+// Defines the SettingsScreen widget as a StatefulWidget
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -11,32 +12,35 @@ class SettingsScreen extends StatefulWidget {
   SettingsScreenState createState() => SettingsScreenState();
 }
 
+// State class for SettingsScreen to manage settings-related state
 class SettingsScreenState extends State<SettingsScreen> {
   final TextEditingController _sugarLimitController = TextEditingController();
-  double _currentLimit = 50.0; // Default value
+  double _currentLimit = 50.0; //Default daily sugar limit in grams
 
   @override
   void initState() {
     super.initState();
-    _loadSugarLimit();
+    _loadSugarLimit(); // Load the saved sugar limit when the screen initializes
   }
 
+  //Loads the saved daily sugar limit from Shared Preferences
   Future<void> _loadSugarLimit() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _currentLimit = prefs.getDouble('dailySugarLimit') ?? 50.0;
-      _sugarLimitController.text = _currentLimit.toString();
+      _currentLimit = prefs.getDouble('dailySugarLimit') ?? 50.0; // Default to 50.0 if not set
+      _sugarLimitController.text = _currentLimit.toString(); // Update the text field 
     });
   }
 
+  // Saves the new sugar limit to SharedPreferences
   Future<void> _saveSugarLimit() async {
     final prefs = await SharedPreferences.getInstance();
-    double? newLimit = double.tryParse(_sugarLimitController.text);
+    double? newLimit = double.tryParse(_sugarLimitController.text); 
     if (newLimit != null && newLimit > 0) {
       setState(() {
-        _currentLimit = newLimit;
+        _currentLimit = newLimit; // Update the current limit
       });
-      await prefs.setDouble('dailySugarLimit', newLimit);
+      await prefs.setDouble('dailySugarLimit', newLimit); //Save to SharedPreferences
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Daily sugar limit updated!')),
       );
@@ -47,6 +51,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
+  //Displays an "About" dialog with app information
   void _showAboutDialog() {
     showDialog(
       context: context,
@@ -70,6 +75,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  //Displays a "Help" dialog with usage instructions
   void _showHelpDialog() {
     showDialog(
       context: context,
@@ -98,6 +104,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  // Displays a confirmation dialog for logging out
   void _logOut() {
     showDialog(
       context: context,
@@ -133,13 +140,13 @@ class SettingsScreenState extends State<SettingsScreen> {
 
   @override
   void dispose() {
-    _sugarLimitController.dispose();
+    _sugarLimitController.dispose(); //Clean up controller
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context); // Access Theme Provider for dark mode state
     final isDarkMode = themeProvider.isDarkMode;
 
     return Scaffold(
@@ -180,7 +187,7 @@ class SettingsScreenState extends State<SettingsScreen> {
             trailing: Switch(
               value: themeProvider.isDarkMode,
               onChanged: (value) {
-                themeProvider.toggleTheme(value);
+                themeProvider.toggleTheme(value); // Toggle theme on
               },
             ),
           ),

@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:convert';
 
+//InsightsScreen widget to displauy sugar consumption insights
 class InsightsScreen extends StatefulWidget {
   const InsightsScreen({super.key});
 
@@ -10,12 +11,13 @@ class InsightsScreen extends StatefulWidget {
   InsightsScreenState createState() => InsightsScreenState();
 }
 
+//State class for InsightsScreen to manage insight data
 class InsightsScreenState extends State<InsightsScreen> {
   List<Map<String, dynamic>> foodLogs = [];
   List<double> weeklySugar = List.filled(7, 0.0);
   double weeklyAverage = 0.0;
   int daysExceededLimit = 0;
-  double dailySugarLimit = 50.0; // Initial default, will be updated
+  double dailySugarLimit = 50.0;
   Map<String, dynamic>? sugarHeroToday;
   Map<String, dynamic>? sugarVillainToday;
 
@@ -26,6 +28,7 @@ class InsightsScreenState extends State<InsightsScreen> {
     _loadSugarLimit();
   }
 
+  // Loads food logs from SharedPreferences
   Future<void> _loadFoodLogs() async {
     final prefs = await SharedPreferences.getInstance();
     List<String>? logs = prefs.getStringList('foodLogs');
@@ -38,6 +41,7 @@ class InsightsScreenState extends State<InsightsScreen> {
     }
   }
 
+  // Loads the daily sugar limit from SharedPreferences
   Future<void> _loadSugarLimit() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -45,6 +49,7 @@ class InsightsScreenState extends State<InsightsScreen> {
     });
   }
 
+  // Calculates insights based on loaded food logs
   void _calculateInsights() {
     weeklySugar = List.filled(7, 0.0);
     daysExceededLimit = 0;

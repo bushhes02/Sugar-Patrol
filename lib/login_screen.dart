@@ -5,6 +5,7 @@ import 'package:sugar_patrol/auth_service.dart';
 import 'signup_screen.dart';
 import 'main_screen.dart';
 
+// Login screen widget for user login
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -12,6 +13,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => LoginScreenState();
 }
 
+// State class for login screen to manage login form state
 class LoginScreenState extends State<LoginScreen> {
   final _auth = AuthService();
 
@@ -19,7 +21,7 @@ class LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   @override
-  void dispose() {
+  void dispose() { // Clean up controllers 
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -43,7 +45,7 @@ class LoginScreenState extends State<LoginScreen> {
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary, // Replace coral with primary blue
+                color: Theme.of(context).colorScheme.primary, 
               ),
             ),
             const Text(
@@ -51,7 +53,6 @@ class LoginScreenState extends State<LoginScreen> {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
             ),
             const SizedBox(height: 24),
-            // Add "Email" text above the email TextField
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -59,32 +60,31 @@ class LoginScreenState extends State<LoginScreen> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: Theme.of(context).colorScheme.onBackground, // Match the theme's text color
+                  color: Theme.of(context).colorScheme.onBackground, 
                 ),
               ),
             ),
-            const SizedBox(height: 8), // Small spacing between label and TextField
+            const SizedBox(height: 8), 
             TextField(
               controller: _emailController,
               decoration: InputDecoration(
-                hintText: "Enter your email", // Updated placeholder text
+                hintText: "Enter your email", 
                 border: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary, width: 2.0),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), 
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), 
                 ),
               ),
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 8),
-            // Add "Password" text above the password TextField
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -92,26 +92,26 @@ class LoginScreenState extends State<LoginScreen> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: Theme.of(context).colorScheme.onBackground, // Match the theme's text color
+                  color: Theme.of(context).colorScheme.onBackground, 
                 ),
               ),
             ),
-            const SizedBox(height: 8), // Small spacing between label and TextField
+            const SizedBox(height: 8), 
             TextField(
               controller: _passwordController,
               decoration: InputDecoration(
-                hintText: "Enter your password", // Updated placeholder text
+                hintText: "Enter your password",
                 border: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary, width: 2.0),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary, width: 2.0),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary, width: 2.0), // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary, width: 2.0), 
                 ),
               ),
               obscureText: true,
@@ -120,8 +120,8 @@ class LoginScreenState extends State<LoginScreen> {
             ElevatedButton(
               onPressed: _login,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary, // Replace coral with primary blue
-                foregroundColor: Theme.of(context).colorScheme.onPrimary, // Use onPrimary for text/icon color
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary, 
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
               ),
               child: const Text(
@@ -152,9 +152,9 @@ class LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.primary, // Replace coral with primary blue
+                      color: Theme.of(context).colorScheme.primary,
                       decoration: TextDecoration.underline,
-                      decorationColor: Theme.of(context).colorScheme.primary, // Replace coral with primary blue
+                      decorationColor: Theme.of(context).colorScheme.primary, 
                     ),
                   ),
                 ),
@@ -165,11 +165,14 @@ class LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  //Navigates to MainScreen, replacing the current route
   goToHome(BuildContext context) => Navigator.pushReplacement(
     context,
     MaterialPageRoute(builder: (context) => const MainScreen()),
   );
 
+  // Handles the login process 
   _login() async {
     final user = await _auth.loginUserWithEmailAndPassword(_emailController.text, _passwordController.text);
 

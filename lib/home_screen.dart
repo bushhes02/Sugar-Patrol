@@ -12,13 +12,12 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> {
   List<Map<String, dynamic>> logs = [];
   List<Map<String, dynamic>> sortedLogs = []; // Sorted list for display
-  double dailySugarLimit = 50.0; // Initial default, will be updated
+  double dailySugarLimit = 50.0;
 
   // Sorting option
   String _sortOption = 'Low to High'; // Default sort: low to high
   final List<String> _sortOptions = ['Low to High', 'High to Low'];
 
-  // Darker green for tracker and message
   static const Color darkGreen = Color(0xFF2E8B57);
 
   // Text controllers for the dialog inputs
@@ -73,7 +72,7 @@ class HomeScreenState extends State<HomeScreen> {
 
   // Apply sorting to today's logs
   void _applySort() {
-    // Filter logs to show only today's logs
+    // Filter logs to show today's logs
     DateTime today = DateTime.now();
     sortedLogs = logs.where((log) {
       DateTime logDate = DateTime.parse(log['timestamp']);
@@ -205,14 +204,14 @@ class HomeScreenState extends State<HomeScreen> {
                       width: 200,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Theme.of(context).colorScheme.surface, // White
+                        color: Theme.of(context).colorScheme.surface, 
                       ),
                     ),
                     SizedBox(
                       height: 180,
                       width: 180,
                       child: CircularProgressIndicator(
-                        value: totalSugarIntake / 100, // Scale for visual purposes (max 100g for display)
+                        value: totalSugarIntake / 100, 
                         strokeWidth: 14,
                         backgroundColor: Theme.of(context).colorScheme.onSurface.withAlpha((0.2 * 255).round()),
                         valueColor: AlwaysStoppedAnimation<Color>(
@@ -267,8 +266,8 @@ class HomeScreenState extends State<HomeScreen> {
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: hasExceededLimit
-                                  ? Theme.of(context).colorScheme.error // Red
-                                  : darkGreen, // Dark Green
+                                  ? Theme.of(context).colorScheme.error 
+                                  : darkGreen, 
                             ),
                       ),
                     ],
@@ -358,14 +357,14 @@ class HomeScreenState extends State<HomeScreen> {
                                         ),
                                         child: ListTile(
                                           contentPadding: const EdgeInsets.symmetric(
-                                            horizontal: 16.0, // Consistent padding on both sides
+                                            horizontal: 16.0, 
                                             vertical: 0,
                                           ),
                                           title: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.only(left: 16.0), // Match trash can padding
+                                                padding: const EdgeInsets.only(left: 16.0), 
                                                 child: Text(
                                                   log["food"],
                                                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
@@ -411,7 +410,7 @@ class HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(right: 16.0, bottom: 16.0), // Move further left
+        padding: const EdgeInsets.only(right: 16.0, bottom: 16.0),
         child: FloatingActionButton(
           onPressed: () => addLogEntry(context),
           child: const Icon(Icons.add),

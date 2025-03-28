@@ -5,10 +5,12 @@ import 'package:provider/provider.dart';
 import 'theme_provider.dart';
 import 'login_screen.dart';
 
+//Entry point of the application
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
+  //Initialize Firebase based on platform (web or mobile)
   if(kIsWeb) {
     await Firebase.initializeApp(
     options: FirebaseOptions(
@@ -23,7 +25,7 @@ void main() async {
     print("Firebase initialized successfully!");
   }
   
-
+  // Run the app with Theme Provider as a ChangeNotifierProvider
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider(),
@@ -47,11 +49,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Roboto',
         colorScheme: const ColorScheme.light(
-          primary: Color(0xFF3206FF), // Dark Blue
-          primaryContainer: Color(0xFF7986FF), // Light Blue
-          secondary: Color(0xFFB99688), // Muted Rose
+          primary: Color(0xFF3206FF), 
+          primaryContainer: Color(0xFF7986FF), 
+          secondary: Color(0xFFB99688), 
           secondaryContainer: Color(0xFFD2B4A8),
-          surface: Color(0xFFF5F5F5), // Light Grey
+          surface: Color(0xFFF5F5F5), 
           onPrimary: Colors.white,
           onSecondary: Color(0xFF212121),
           onSurface: Color(0xFF212121),
@@ -77,14 +79,14 @@ class MyApp extends StatelessWidget {
         ),
         cardTheme: CardTheme(
           elevation: 4,
-          color: const Color(0xFFE6EBFF), // Washed-Out Light Blue
+          color: const Color(0xFFE6EBFF), 
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF3206FF), // Dark Blue
+            backgroundColor: const Color(0xFF3206FF), 
             foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           ),
@@ -107,9 +109,9 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(
         fontFamily: 'Roboto',
         colorScheme: const ColorScheme.dark(
-          primary: Color(0xFF7986FF), // Light Blue
+          primary: Color(0xFF7986FF), 
           primaryContainer: Color(0xFF3206FF),
-          secondary: Color(0xFFD2B4A8), // Light Rose
+          secondary: Color(0xFFD2B4A8), 
           secondaryContainer: Color(0xFFB99688),
           surface: Color(0xFF121212),
           onPrimary: Colors.white,
@@ -137,7 +139,7 @@ class MyApp extends StatelessWidget {
         ),
         cardTheme: CardTheme(
           elevation: 4,
-          color: const Color(0xFF2A2F5A), // Darker shade for dark mode
+          color: const Color(0xFF2A2F5A), 
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -158,8 +160,8 @@ class MyApp extends StatelessWidget {
         ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Color(0xFF121212),
-          selectedItemColor: Colors.white, // Bright white for selected item
-          unselectedItemColor: Colors.grey, // Brighter gray for unselected items
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.grey, 
           selectedLabelStyle: TextStyle(color: Colors.white),
           unselectedLabelStyle: TextStyle(color: Colors.grey),
         ),

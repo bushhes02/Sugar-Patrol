@@ -4,6 +4,7 @@ import 'search_screen.dart';
 import 'insights_screen.dart';
 import 'settings_screen.dart';
 
+// Main Screen widget
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -11,6 +12,7 @@ class MainScreen extends StatefulWidget {
   MainScreenState createState() => MainScreenState();
 }
 
+// Manages navigation state
 class MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
@@ -19,7 +21,7 @@ class MainScreenState extends State<MainScreen> {
     const SearchScreen(),
     const InsightsScreen(),
     const SettingsScreen(),
-  ];
+  ]; //Screens to navigate between
 
   @override
   Widget build(BuildContext context) {
